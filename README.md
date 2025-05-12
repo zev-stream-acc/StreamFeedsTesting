@@ -1,8 +1,4 @@
-Absolutely — here is the entire `README.md` fully formatted in **Markdown** for GitHub. You can copy-paste this directly into your repo’s root directory as `README.md`.
 
----
-
-```markdown
 # Stream Feeds Demo: Ranked and Personalized
 
 This repository provides a working proof of concept for building **ranked** and **personalized** activity feeds using the [Stream Activity Feeds API](https://getstream.io) and OpenAI.
@@ -95,4 +91,3 @@ node server.js
 * This is ideal for validation, experimentation, or architecture prototyping
 
 For more about Stream Activity Feeds, visit [getstream.io](https://getstream.io)
-
