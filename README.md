@@ -1,74 +1,80 @@
-This repo provides a working proof of concept for integrating Stream Activity Feeds with custom ranking and personalized content delivery using user engagement signals and OpenAI GPT scoring.
+# Stream Feeds Demo: Ranked and Personalized
 
-The goal of this POC is to demonstrate two common feed experiences:
+This repository provides a working proof of concept for building **ranked** and **personalized** activity feeds using the [Stream Activity Feeds API](https://getstream.io) and OpenAI.
 
-Ranked Feed: Ordered by popularity using a Stream ranking function.
+The project showcases two common use cases:
 
-Personalized Feed: Tailored to individual users based on their actual interactions with content (likes), scored by a lightweight recommendation layer.
+- **Ranked Feeds**: Sorted using Stream’s native ranking methods (e.g., by popularity or reaction count).
+- **Personalized Feeds**: Customized per user based on engagement behavior (e.g., likes), using OpenAI GPT for lightweight relevance scoring.
 
-This approach does not depend on Stream's deprecated personalization logic. Instead, it uses supported APIs and external logic to achieve dynamic, user-specific content delivery.
+This architecture avoids deprecated personalization features and instead relies on Stream’s supported APIs, OpenAI, and minimal backend logic.
 
-Features
-Global feed seeded with posts tagged by genre and popularity
+## Features
 
-Ranked feed using Stream's ranking formulas (e.g. by reaction counts)
+- Global feed with posts tagged by `genre` and `popularity`
+- Ranked timeline feed using Stream’s ranking algorithm
+- Personalized feed generated per user via OpenAI GPT scoring
+- Click-to-like UI tracking, stored locally
+- Dynamic user preference profiles inferred from engagement
+- Separated frontend and backend logic for clarity
+- Two isolated projects: one for ranked, one for personalized feeds
 
-Personalized feed per user (personalized:userId) based on engagement
+## Project Structure
+FeedTest/
+│
+├── RankedFeed/
+│ ├── server.js
+│ ├── app.js
+│ └── index.html
+│
+├── PersonalizedFeed/
+│ ├── server.js
+│ ├── app.js
+│ ├── index.html
+│ └── engagements.json
 
-Local engagement tracking with per-user preference modeling
+## Setup
 
-GPT-based relevance scoring using OpenAI to select content per user
+1. Clone this repository:
 
-Two standalone apps (Ranked and Personalized) for isolated testing
-
-Setup
-Clone the repository
-
-Install dependencies
+```bash
+git clone https://github.com/YOUR_USERNAME/personalized-feed-demo.git
+cd personalized-feed-demo
+Install dependencies (in each folder):
 
 bash
-Copy
-Edit
 npm install
-Create a .env file in each project folder (RankedFeed/ and PersonalizedFeed/) with the following:
+Create a .env file in both RankedFeed/ and PersonalizedFeed/:
 
 env
-Copy
-Edit
-STREAM_API_KEY=
-STREAM_API_SECRET=
-STREAM_APP_ID=
-STREAM_ANALYTICS_TOKEN=
-OPENAI_API_KEY=
-Note: The app will not run without valid API keys.
+STREAM_API_KEY=your_stream_api_key
+STREAM_API_SECRET=your_stream_api_secret
+STREAM_APP_ID=your_stream_app_id
+STREAM_ANALYTICS_TOKEN=your_analytics_token
+OPENAI_API_KEY=your_openai_key
 
-Start the server
-
+Start the server:
 bash
-Copy
-Edit
 node server.js
-Access the feed viewer
 
-Ranked Feed: http://localhost:5000
+## Open the Feed Viewer in Your Browser
 
-Personalized Feed: http://localhost:5001
+- **Ranked Feed**: [http://localhost:5000](http://localhost:5000)  
+- **Personalized Feed**: [http://localhost:5001](http://localhost:5001)
 
-Personalized Feed Workflow
-Seed the global feed with genre-tagged posts
+## Personalized Feed Workflow
 
-Engage with content (like buttons) to simulate user interest
+- Use `/seed-global` to populate the global feed  
+- Click "Like" on any post (tracked via `foreign_id`)  
+- Local storage (`engagements.json`) records per-user genre preferences  
+- Run `/rebuild-personalized/:userId` to regenerate content based on current preferences  
+- OpenAI returns a relevance score (0–1) per post based on the user’s inferred interests  
+- The feed filters and shows only the most relevant posts  
 
-Rebuild the personalized feed based on updated preferences
+## Notes
 
-View the personalized feed with relevance-ranked content
+- Engagements are stored in JSON to avoid DB setup  
+- OpenAI is used purely for prompt-based inference (no training required)  
+- This is ideal for validation, experimentation, or architecture prototyping  
 
-No analytics SDK or external ML infrastructure is required. All scoring and logic runs via API-based enrichment and OpenAI prompt engineering.
-
-Notes
-Data is stored locally in engagements.json for simplicity
-
-This is intended as a validation layer and architecture reference
-
-Ideal for teams exploring feed personalization without complex ML pipelines
-
+For more about Stream Activity Feeds, visit [getstream.io](https://getstream.io)
