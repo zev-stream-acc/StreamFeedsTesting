@@ -14,9 +14,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const API_KEY = process.env.STREAM_API_KEY || 'snheg68hp5r7';
-const API_SECRET = process.env.STREAM_API_SECRET || 'x6s4a64s5wejjrr53xdzxaavcw39efe425uk6rfcxqak655jbf2t3hp9zvwwu3pa';
-const APP_ID = process.env.STREAM_APP_ID || '123456';
+const API_KEY = process.env.STREAM_API_KEY;
+const API_SECRET = process.env.STREAM_API_SECRET;
+const APP_ID = process.env.STREAM_APP_ID;
 const client = Stream.connect(API_KEY, API_SECRET, APP_ID);
 
 const TEST_USER_ID = 'user:123';
